@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/api/models/todo_model.dart';
 
 class Item extends StatefulWidget {
-  const Item({super.key});
+  final Todo todo;
+  const Item({super.key, required this.todo});
 
   @override
   State<Item> createState() => _ItemState();
@@ -10,14 +12,21 @@ class Item extends StatefulWidget {
 class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
+    Todo todo = widget.todo;
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.teal[300],
-        child: Icon(Icons.watch_later_outlined, color: Colors.white),
+      leading: IconButton(
+        icon: todo.isCompleted
+            ? Icon(Icons.check_circle, color: Colors.teal)
+            : Icon(Icons.circle_outlined),
+
+        onPressed: () {
+          todo.isCompleted = todo.isCompleted ? false : true;
+          setState(() {});
+        },
       ),
-      trailing: Checkbox(value: false, onChanged: (value) {}),
-      title: Text("Aqui va un titulo"),
-      subtitle: Text("Aquí va un subtítulo"),
+      trailing: todo.isCompleted ? null : Icon(Icons.access_time_sharp),
+      title: Text(todo.title),
+      subtitle: Text(todo.description),
     );
   }
 }

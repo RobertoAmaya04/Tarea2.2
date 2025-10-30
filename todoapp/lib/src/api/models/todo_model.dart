@@ -1,13 +1,22 @@
 class Todo {
   String title;
   String description;
+  bool isCompleted;
+  int id;
 
-  Todo({required this.title, required this.description});
+  Todo({
+    required this.title,
+    required this.description,
+    required this.isCompleted,
+    required this.id,
+  });
 
-  ToJson(Todo todo) {
+  ToJson() {
     return {
-      'title': todo.title.toString(),
-      'description': todo.description.toString(),
+      'title': this.title.toString(),
+      'description': this.description.toString(),
+      'isCompleted': this.isCompleted.toString(),
+      'id': this.isCompleted.toString(),
     };
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todoapp/src/api/models/todo_list.dart';
 import 'package:todoapp/src/widgets/items.dart';
+import 'package:todoapp/src/widgets/utils.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,10 +26,37 @@ class HomePage extends StatelessWidget {
       ),
 
       body: ListView.builder(
-        itemCount: 4,
+        itemCount: todoList.length,
         itemBuilder: (context, index) {
-          return Item();
+          return Dismissible(
+            key: Key(todoList[index].id.toString()),
+            confirmDismiss: (direction) async {
+              if (direction == DismissDirection.startToEnd) {
+                context.pushNamed(
+                  'update_todo',
+                  pathParameters: {'id': todoList[index].id.toString()},
+                  extra: todoList[index],
+                );
+                return false;
+              }
+
+              // return await Utils.showConfirm(
+              //   context: context,
+              //   confirmButton: () {
+              //     context.pop(todoList.remove(todoList[index]));
+              //   },
+              // );
+            },
+
+            child: Item(todo: todoList[index]),
+          );
         },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
+        child: Icon(Icons.add, color: Colors.white),
+        onPressed: () {},
       ),
     );
   }

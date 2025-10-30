@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/api/models/todo_model.dart';
 import 'package:todoapp/src/views/home_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/src/views/login_page.dart';
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       title: "todo-App",
       routerConfig: GoRouter(
-        initialLocation: '/login',
+        initialLocation: '/menu',
         routes: [
           GoRoute(
             path: '/login',
@@ -27,8 +28,17 @@ class MainApp extends StatelessWidget {
             builder: (context, state) => HomePage(),
             routes: [
               GoRoute(
-                path: '/manage/:id',
-                name: 'manageTodo',
+                path: '/:id',
+                name: 'update_todo',
+                builder: (context, state) {
+                  final todo = state.extra as Todo;
+                  return TodoCreateUpdate(todo: todo);
+                },
+              ),
+
+              GoRoute(
+                path: '/create',
+                name: 'create_todo',
                 builder: (context, state) => TodoCreateUpdate(),
               ),
             ],

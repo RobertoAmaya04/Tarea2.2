@@ -30,7 +30,7 @@ class CustomTextInput extends StatelessWidget {
         break;
       case CustomTextInputType.title:
         icon = Icon(Icons.title);
-        label = 'Titutlo';
+        label = 'Titulo';
         keyboard = TextInputType.text;
         lines = 1;
         break;
