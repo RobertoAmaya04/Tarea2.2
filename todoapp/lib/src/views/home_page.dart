@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todoapp/src/api/models/todo_list.dart';
+import 'package:todoapp/src/api/models/todo_model.dart';
+import 'package:todoapp/src/api/models/user.dart';
 import 'package:todoapp/src/widgets/items.dart';
-import 'package:todoapp/src/widgets/utils.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final User? user;
+  const HomePage({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // mira una opcion es poner en chiquito el nombre del usuario en el appbar
+        // si te animas seria algo como => Text(user!.name, Style: TextStyle())
         leading: Icon(Icons.calendar_month_outlined, color: Colors.white),
 
         backgroundColor: Colors.teal,
@@ -26,29 +29,32 @@ class HomePage extends StatelessWidget {
       ),
 
       body: ListView.builder(
-        itemCount: todoList.length,
+        itemCount: user!.todoList.length,
         itemBuilder: (context, index) {
           return Dismissible(
-            key: Key(todoList[index].id.toString()),
+            key: Key(user!.todoList[index].id.toString()),
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.startToEnd) {
-                context.pushNamed(
+                final result = await context.pushNamed(
                   'update_todo',
-                  pathParameters: {'id': todoList[index].id.toString()},
-                  extra: todoList[index],
+                  pathParameters: {'id': user!.todoList[index].id.toString()},
+                  extra: user!.todoList[index],
                 );
+                user!.updateTodo(result as Todo);
                 return false;
               }
 
               // return await Utils.showConfirm(
               //   context: context,
               //   confirmButton: () {
-              //     context.pop(todoList.remove(todoList[index]));
+              //     context.pop(user!.todoList.remove(user!.todoList[index]));
               //   },
               // );
+              // nose como lo haras la pantalla para preguntar si borrar, pero bueno solo
+              // que te 
             },
 
-            child: Item(todo: todoList[index]),
+            child: Item(todo: user!.todoList[index]),
           );
         },
       ),
@@ -56,7 +62,20 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
         child: Icon(Icons.add, color: Colors.white),
-        onPressed: () {},
+        onPressed: () async {
+          final result = await context.pushNamed('create_todo') as Map;
+
+          if (result != null) {
+            user!.addTodo(
+              Todo(
+                id: user!.todoList.length,
+                title: result['title'],
+                description: result['description'],
+                isCompleted: false,
+              ),
+            );
+          }
+        },
       ),
     );
   }

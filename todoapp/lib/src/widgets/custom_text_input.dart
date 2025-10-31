@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 enum CustomTextInputType { email, password, title, description }
 
+
 class CustomTextInput extends StatelessWidget {
   final CustomTextInputType type;
   final TextEditingController cont;

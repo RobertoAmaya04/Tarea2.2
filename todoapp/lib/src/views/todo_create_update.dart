@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
 import 'package:todoapp/src/widgets/custom_text_input.dart';
+import 'package:go_router/go_router.dart';
 
 class TodoCreateUpdate extends StatelessWidget {
   final Todo? todo;
@@ -34,8 +35,16 @@ class TodoCreateUpdate extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
-                  child: todo != null ? Text('Crear') : Text('Guardar'),
+                  onPressed: () {
+                    if (todo != null) {
+                      todo!.title = titleController.text;
+                      todo!.description = descriptionController.text;
+                      context.pop(todo);
+                    }else{
+                      context.pop({'title': titleController.text, 'description':descriptionController.text} as Map);
+                    }
+                  },
+                  child: todo != null ? Text('Guardar') : Text('Crear'),
                 ),
               ],
             ),
