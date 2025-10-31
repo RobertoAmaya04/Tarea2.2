@@ -15,10 +15,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: "todo-App",
+      debugShowCheckedModeBanner: false,
       routerConfig: GoRouter(
         initialLocation: '/singin',
         routes: [
-          
           GoRoute(
             path: '/singin',
             name: 'sing_in',
@@ -48,6 +48,8 @@ class MainApp extends StatelessWidget {
               ),
               // maje si podes revisar porque si quito el ? del Todo de arriba revienta estaria god
               // no logro entender porque pasa y pss ya son las 3am xd
+              // Creo que es porque el todo del TodoCreateUpdate es Todo? entonces mandas como argumento una wea de diferente tipo
+              // imagino que no afecta en nada el rendimiento no? pues no puede ir null
               GoRoute(
                 path: '/create',
                 name: 'create_todo',

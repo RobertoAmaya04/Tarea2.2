@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/widgets/password_widget.dart';
+import 'package:todoapp/src/widgets/simple_text_input.dart';
 
 enum CustomTextInputType { email, password, title, description }
-
 
 class CustomTextInput extends StatelessWidget {
   final CustomTextInputType type;
@@ -11,38 +12,34 @@ class CustomTextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Icon icon;
-    final String label;
-    final TextInputType keyboard;
-    final int lines;
-
     switch (type) {
       case CustomTextInputType.email:
-        icon = Icon(Icons.email);
-        label = 'Correo';
-        keyboard = TextInputType.emailAddress;
-        lines = 1;
-        break;
+        return SimpleInput(
+          cont: cont,
+          suffixIcon: Icon(Icons.email),
+          keyboard: TextInputType.emailAddress,
+          label: "e-mail",
+          lines: 1,
+          hint: "sunombre@example.com",
+        );
       case CustomTextInputType.password:
-        icon = Icon(Icons.visibility);
-        label = 'Contrasena';
-        keyboard = TextInputType.visiblePassword;
-        lines = 1;
-        break;
+        return PasswordText(cont: cont);
       case CustomTextInputType.title:
-        icon = Icon(Icons.title);
-        label = 'Titulo';
-        keyboard = TextInputType.text;
-        lines = 1;
-        break;
+        return SimpleInput(
+          cont: cont,
+          prefixIcon: Icon(Icons.title),
+          keyboard: TextInputType.text,
+          label: "titulo",
+          lines: 1,
+          hint: "Escriba un titulo",
+        );
       case CustomTextInputType.description:
-        icon = Icon(Icons.description);
-        label = 'Descripcion';
-        keyboard = TextInputType.text;
-        lines = 5;
-        break;
+        return SimpleInput(
+          cont: cont,
+          keyboard: TextInputType.text,
+          label: "Descripcion",
+          lines: 5,
+        );
     }
-
-    return TextField(controller: cont, keyboardType: keyboard, maxLines: lines);
   }
 }

@@ -18,39 +18,60 @@ class TodoCreateUpdate extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 16),
-        child: Column(
-          children: [
-            CustomTextInput(
-              type: CustomTextInputType.title,
-              cont: titleController,
-            ),
-            SizedBox(height: 16),
-            CustomTextInput(
-              type: CustomTextInputType.description,
-              cont: descriptionController,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    if (todo != null) {
-                      todo!.title = titleController.text;
-                      todo!.description = descriptionController.text;
-                      context.pop(todo);
-                    }else{
-                      context.pop({'title': titleController.text, 'description':descriptionController.text} as Map);
-                    }
-                  },
-                  child: todo != null ? Text('Guardar') : Text('Crear'),
-                ),
-              ],
-            ),
-          ],
+      appBar: AppBar(backgroundColor: Colors.teal),
+      body: SizedBox(
+        child: Padding(
+          padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 16),
+          child: Column(
+            children: [
+              CustomTextInput(
+                type: CustomTextInputType.title,
+                cont: titleController,
+              ),
+              SizedBox(height: 16),
+              CustomTextInput(
+                type: CustomTextInputType.description,
+                cont: descriptionController,
+              ),
+
+              //voy a eliminar todo este column
+            ],
+          ),
         ),
       ),
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterDecoration: BoxDecoration(color: Colors.teal[300]),
+      persistentFooterButtons: [
+        SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontFamily: "Arial",
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onPressed: () {
+              if (todo != null) {
+                todo!.title = titleController.text;
+                todo!.description = descriptionController.text;
+                context.pop(todo);
+              } else {
+                context.pop(
+                  {
+                        'title': titleController.text,
+                        'description': descriptionController.text,
+                      }
+                      as Map,
+                );
+              }
+            },
+            child: todo != null ? Text('Guardar') : Text('Crear'),
+          ),
+        ),
+      ],
     );
   }
 }

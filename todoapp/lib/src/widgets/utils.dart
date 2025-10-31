@@ -4,6 +4,14 @@ import 'package:todoapp/src/api/models/user.dart';
 class Utils {
   //final List<User> users = [amehd, roberto];
 
+  static String obtenerIniciales(String str) {
+    final strArr = str.split(' ');
+    String strReturn = ' ';
+    for (int i = 0; i < strArr.length; i++)
+      strReturn = strReturn + strArr[i][0];
+    return strReturn;
+  }
+
   static bool emailValidator(String correo) {
     final RegExp mask = RegExp(
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$',
@@ -29,8 +37,7 @@ class Utils {
   static User? loginUser({required String email, required String password}) {
     if (email == 'amehd.mendez@unah.hn' && password == '20232030664') {
       return amehd;
-    } else if (email == 'tu correo roberto' &&
-        password == 'tu numero de cuenta') {
+    } else if (email == 'rcamaya@unah.hn' && password == '20232030549') {
       return roberto;
     }
     return null;

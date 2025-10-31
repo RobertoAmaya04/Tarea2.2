@@ -9,13 +9,15 @@ final amehd = User(
     Todo(
       id: 1,
       title: 'Agregar inicio de sesion',
-      description: 'Agregar inicio de sesion con el correo institucional y numero de cuenta de ambos',
+      description:
+          'Agregar inicio de sesion con el correo institucional y numero de cuenta de ambos',
       isCompleted: true,
     ),
     Todo(
       id: 2,
       title: 'Agregar crear cueta',
-      description: 'Agregar pantalla de creacion de cuenta con validacion de correo y contraseña',
+      description:
+          'Agregar pantalla de creacion de cuenta con validacion de correo y contraseña',
       isCompleted: true,
     ),
     Todo(
@@ -29,6 +31,6 @@ final amehd = User(
 
 final roberto = User(
   name: 'Roberto',
-  email: 'tu correo institucional',
-  password: 'tu numero de cuenta',
+  email: 'rcamaya@unah.hn',
+  password: '20232030549',
 );

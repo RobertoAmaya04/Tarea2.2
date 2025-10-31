@@ -1,5 +1,8 @@
 import 'package:todoapp/src/api/models/todo_model.dart';
 
+//tengo un erro aquí porque no acepta la creación de tareas con mis credenciales
+//El error salta en la linea 10 void addTodoo(Todo todo)
+
 class User {
   final String name;
   final String email;
@@ -22,7 +25,7 @@ class User {
   }
 
   // variante dependiendo de como te sea mas comodo en la vaina esa para deslizar
-  // 
+  //
   //void removeTodo(int index) {
   //   todoList.remove(todoList[index]);
   // }

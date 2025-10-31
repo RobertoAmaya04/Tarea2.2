@@ -24,8 +24,19 @@ class _ItemState extends State<Item> {
           setState(() {});
         },
       ),
-      trailing: todo.isCompleted ? null : Icon(Icons.access_time_sharp),
-      title: Text(todo.title),
+
+      trailing: todo.isCompleted
+          ? Icon(Icons.arrow_back_ios_sharp)
+          : Icon(Icons.arrow_forward_ios_sharp),
+
+      title: Text(
+        todo.title,
+        style: TextStyle(
+          decoration: todo.isCompleted
+              ? TextDecoration.lineThrough
+              : TextDecoration.none,
+        ),
+      ),
       subtitle: Text(todo.description),
     );
   }

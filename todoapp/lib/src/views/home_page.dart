@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
 import 'package:todoapp/src/api/models/user.dart';
 import 'package:todoapp/src/widgets/items.dart';
+import 'package:todoapp/src/widgets/utils.dart';
 
 class HomePage extends StatelessWidget {
   final User? user;
@@ -14,16 +15,30 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         // mira una opcion es poner en chiquito el nombre del usuario en el appbar
         // si te animas seria algo como => Text(user!.name, Style: TextStyle())
-        leading: Icon(Icons.calendar_month_outlined, color: Colors.white),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 4, top: 6, bottom: 6),
+          child: CircleAvatar(
+            backgroundColor: Colors.deepOrange[200],
+            radius: 12,
+            child: Text(
+              Utils.obtenerIniciales(user!.name).trim(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
 
         backgroundColor: Colors.teal,
         //centerTitle: true,
         title: Text(
-          "TO DO LIST",
+          'Tareas de ' + user!.name,
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
-            fontFamily: "Helvetica",
+            fontFamily: 'Helvetica',
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -32,6 +47,40 @@ class HomePage extends StatelessWidget {
         itemCount: user!.todoList.length,
         itemBuilder: (context, index) {
           return Dismissible(
+            background: Container(
+              padding: EdgeInsets.only(left: 16),
+              color: Colors.blue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.edit_outlined, color: Colors.blue[50], size: 30),
+
+                  SizedBox(width: 12),
+                  Text(
+                    'Modificar',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[50],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            secondaryBackground: Container(
+              padding: EdgeInsets.only(right: 16),
+              color: Colors.red,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.red[50],
+                  size: 30,
+                ),
+              ),
+            ),
+
             key: Key(user!.todoList[index].id.toString()),
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.startToEnd) {
@@ -40,7 +89,9 @@ class HomePage extends StatelessWidget {
                   pathParameters: {'id': user!.todoList[index].id.toString()},
                   extra: user!.todoList[index],
                 );
-                user!.updateTodo(result as Todo);
+                // si te salis de update_todo con un mapa null te truena el programa
+                //pero este result != null hace que la tarea tarde en volver a aparacere por el async await, porfa corregilo
+                if (result != null) user!.updateTodo(result as Todo);
                 return false;
               }
 
@@ -51,7 +102,7 @@ class HomePage extends StatelessWidget {
               //   },
               // );
               // nose como lo haras la pantalla para preguntar si borrar, pero bueno solo
-              // que te 
+              // que te
             },
 
             child: Item(todo: user!.todoList[index]),
@@ -63,7 +114,10 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.teal,
         child: Icon(Icons.add, color: Colors.white),
         onPressed: () async {
-          final result = await context.pushNamed('create_todo') as Map;
+          //si alguien cancela esta operación volvienda hacia atras muere el programa
+          //solucionado permitiendo que el mapa venga null
+          //Falta validar que el mapa no venga vacío
+          final result = await context.pushNamed('create_todo') as Map?;
 
           if (result != null) {
             user!.addTodo(
