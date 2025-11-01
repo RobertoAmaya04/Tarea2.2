@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/api/models/user_manager.dart';
 import 'package:todoapp/src/widgets/custom_snackbar.dart';
 import 'package:todoapp/src/widgets/custom_text_input.dart';
 import 'package:todoapp/src/widgets/simple_text_input.dart';
@@ -13,6 +14,8 @@ class SessionPage extends StatefulWidget {
 }
 
 class _SesionsState extends State<SessionPage> {
+  final manager = UserManager();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -21,6 +24,7 @@ class _SesionsState extends State<SessionPage> {
 
   @override
   Widget build(BuildContext context) {
+    manager.initBaseUsers();
     if (login) {
       return _SingIn();
     } else {
@@ -77,6 +81,8 @@ class _SesionsState extends State<SessionPage> {
                       setState(() {
                         emailController.text = '';
                         passwordController.text = '';
+                        nameController.text = '';
+                        phoneController.text = '';
                         login = false;
                       });
                     },
@@ -97,7 +103,7 @@ class _SesionsState extends State<SessionPage> {
                   ),
                 ),
                 onPressed: () {
-                  final user = Utils.loginUser(
+                  final user = manager.loginUser(
                     email: emailController.text,
                     password: passwordController.text,
                   );
@@ -178,6 +184,8 @@ class _SesionsState extends State<SessionPage> {
                       setState(() {
                         emailController.text = '';
                         passwordController.text = '';
+                        nameController.text = '';
+                        phoneController.text = '';
                         login = true;
                       });
                     },
@@ -272,6 +280,13 @@ class _SesionsState extends State<SessionPage> {
                     message: 'Cuenta creada exitosamente 🎉',
                     backgroundColor: Colors.green,
                     icon: Icons.check_circle_outline,
+                  );
+
+                  manager.addUser(
+                    name: nameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                    phoneNumber: phoneController.text,
                   );
 
                   setState(() {

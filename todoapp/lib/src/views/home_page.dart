@@ -124,6 +124,7 @@ class HomePage extends StatelessWidget {
 
                 if (confirm == true) {
                   user!.todoList.removeAt(index);
+                  // user!.updateTodoIDs();
                   return true;
                 }
 
@@ -151,7 +152,7 @@ class HomePage extends StatelessWidget {
           if (result != null && result is Map) {
             user!.addTodo(
               Todo(
-                id: user!.todoList.length + 1,
+                id: DateTime.now().millisecond.toInt(),
                 title: result['title'],
                 description: result['description'],
                 isCompleted: false,

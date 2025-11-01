@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todoapp/src/api/fake_data.dart';
-import 'package:todoapp/src/api/models/user.dart';
 
 class Utils {
   //final List<User> users = [amehd, roberto];
@@ -19,16 +16,19 @@ class Utils {
     //   r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$',
     // );
     final mask = RegExp(r'^[\w\.-]+@unah\.hn$');
+    
     return mask.hasMatch(correo);
   }
 
-  static bool passwordValidator(String correo) {
+  static bool passwordValidator(String contrasena) {
     //almenos un caracter especial => (?=.*[@$!%*?&]) , minimo de 8 caracteres => {8,}
     //final RegExp mask = RegExp(r'^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
     final RegExp mask = RegExp(
-      r'^(?=.*[.,-;:%$@&*!¡¿?_])[A-Za-z\d.,-;:%$@&*!¡¿?_]{6,}$',
+      r'^(?=.*[.,\-;:%$@&*!¡¿?_])[A-Za-z\d.,-;:%$@&*!¡¿?_]{6,}$',
     );
-    return mask.hasMatch(correo);
+    print(mask.hasMatch('megmin2121')); 
+    print(mask.hasMatch('megmin2121@'));
+    return mask.hasMatch(contrasena);
   }
 
   // static bool addUser({required String email, required String password}) {
@@ -39,15 +39,6 @@ class Utils {
   //     return false;
   //   }
   // }
-
-  static User? loginUser({required String email, required String password}) {
-    if (email == 'amehd.mendez@unah.hn' && password == '20232030664') {
-      return amehd;
-    } else if (email == 'rcamaya@unah.hn' && password == '20232030549') {
-      return roberto;
-    }
-    return null;
-  }
 
   static showSnackBar({
     required BuildContext context,
