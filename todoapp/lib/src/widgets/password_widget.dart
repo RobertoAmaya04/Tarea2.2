@@ -23,8 +23,8 @@ class _PasswordTextState extends State<PasswordText> {
         suffixIcon: IconButton(
           icon: Icon(
             visibility
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
           ),
           onPressed: () {
             visibility = !visibility;
