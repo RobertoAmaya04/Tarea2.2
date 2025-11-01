@@ -1,3 +1,4 @@
+import 'package:todoapp/src/api/models/todo_list.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
 import 'package:todoapp/src/api/models/user.dart';
 
@@ -33,4 +34,5 @@ final roberto = User(
   name: 'Roberto',
   email: 'rcamaya@unah.hn',
   password: '20232030549',
+  todoList: [],
 );

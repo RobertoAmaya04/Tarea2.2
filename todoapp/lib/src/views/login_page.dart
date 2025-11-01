@@ -106,8 +106,9 @@ class _SesionsState extends State<SessionPage> {
                   } else {
                     CustomSnackBar.show(
                       context,
+                      icon: Icons.lock_outline,
                       message: "Correo y contraseña no válidos",
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.orangeAccent,
                     );
                   }
                   //TODO: Aqui metes un else con el snackbar de error (para decir que el correo o contraseña es invalido)
@@ -232,11 +233,23 @@ class _SesionsState extends State<SessionPage> {
                     );
                     return;
                   }
-
+                  //Colors.orangeAccent
                   if (passwordController.text.isEmpty) {
                     CustomSnackBar.show(
                       context,
                       message: "Debe llenar el campo Contraseña",
+                    );
+                    return;
+                  }
+
+                  if (passwordController.text.length < 6) {
+                    CustomSnackBar.show(
+                      context,
+                      message:
+                          "La contraseña debe contener al menos 6 caracteres",
+                      backgroundColor: Colors.redAccent,
+                      icon: Icons.lock_outline,
+                      duration: Duration(seconds: 3),
                     );
                     return;
                   }
@@ -246,10 +259,10 @@ class _SesionsState extends State<SessionPage> {
                     CustomSnackBar.show(
                       context,
                       message:
-                          'La contraseña debe contener letras, numeros y un caracter especial',
-                      backgroundColor: Colors.orangeAccent,
+                          'La contraseña debe contener letras, numeros y un caracter especial. Ej: .,-;:%\$#@&*!¡¿?_',
+                      backgroundColor: Colors.redAccent,
                       icon: Icons.lock_outline,
-                      duration: Duration(seconds: 3),
+                      duration: Duration(seconds: 6),
                     );
                     return;
                   }

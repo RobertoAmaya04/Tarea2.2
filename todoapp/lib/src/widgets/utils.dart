@@ -24,7 +24,10 @@ class Utils {
 
   static bool passwordValidator(String correo) {
     //almenos un caracter especial => (?=.*[@$!%*?&]) , minimo de 8 caracteres => {8,}
-    final RegExp mask = RegExp(r'^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+    //final RegExp mask = RegExp(r'^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+    final RegExp mask = RegExp(
+      r'^(?=.*[.,-;:%$@&*!¡¿?_])[A-Za-z\d.,-;:%$@&*!¡¿?_]{6,}$',
+    );
     return mask.hasMatch(correo);
   }
 
