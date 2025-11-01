@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/widgets/custom_snackbar.dart';
 import 'package:todoapp/src/widgets/custom_text_input.dart';
 import 'package:todoapp/src/widgets/utils.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +72,9 @@ class _SesionsState extends State<SessionPage> {
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        login = true;
+                        emailController.text = '';
+                        passwordController.text = '';
+                        login = false;
                       });
                     },
                     child: const Text(
@@ -155,6 +158,8 @@ class _SesionsState extends State<SessionPage> {
                   TextButton(
                     onPressed: () {
                       setState(() {
+                        emailController.text = '';
+                        passwordController.text = '';
                         login = true;
                       });
                     },
@@ -174,20 +179,40 @@ class _SesionsState extends State<SessionPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (!Utils.emailValidator(emailController.text)) {
                     emailController.text = '';
-                    //TODO: aqui saca un snackbar de correo invalido
+                    CustomSnackBar.show(
+                      context,
+                      message: 'Correo inválido',
+                      backgroundColor: Colors.redAccent,
+                      icon: Icons.error_outline,
+                    );
+                    return;
                   }
 
                   if (!Utils.passwordValidator(passwordController.text)) {
                     passwordController.text = '';
-                    //TODO: aqui saca un snackbar de contraseña invalida
+                    CustomSnackBar.show(
+                      context,
+                      message: 'Contraseña inválida',
+                      backgroundColor: Colors.orangeAccent,
+                      icon: Icons.lock_outline,
+                    );
+                    return;
                   }
 
-                  //TODO: aqui.............. puedes meter un snackbar de 'cuenta creada exitosamente'
-                  // sino me dices y hacemos un estado interno de esta para que al crear cuenta salga algo mas vistoso
+                  CustomSnackBar.show(
+                    context,
+                    message: 'Cuenta creada exitosamente 🎉',
+                    backgroundColor: Colors.green,
+                    icon: Icons.check_circle_outline,
+                  );
 
+                  setState(() {
+                    passwordController.text = '';
+                    login = true;
+                  });
                 },
                 child: const Text('Crear'),
               ),

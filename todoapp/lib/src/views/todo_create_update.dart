@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
+import 'package:todoapp/src/widgets/custom_snackbar.dart';
 import 'package:todoapp/src/widgets/custom_text_input.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,7 +22,7 @@ class TodoCreateUpdate extends StatelessWidget {
       appBar: AppBar(backgroundColor: Colors.teal),
       body: SizedBox(
         child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
             children: [
               CustomTextInput(
@@ -54,20 +55,27 @@ class TodoCreateUpdate extends StatelessWidget {
               ),
             ),
             onPressed: () {
+              final title = titleController.text.trim();
+              final description = descriptionController.text.trim();
+
+              if (title.isEmpty) {
+                CustomSnackBar.show(
+                  context,
+                  message: 'El título no puede estar vacío',
+                  backgroundColor: Colors.red,
+                );
+                return;
+              }
+
               if (todo != null) {
-                todo!.title = titleController.text;
-                todo!.description = descriptionController.text;
+                todo!.title = title;
+                todo!.description = description;
                 context.pop(todo);
               } else {
-                context.pop(
-                  {
-                        'title': titleController.text,
-                        'description': descriptionController.text,
-                      }
-                      as Map,
-                );
+                context.pop({'title': title, 'description': description});
               }
             },
+
             child: todo != null ? Text('Guardar') : Text('Crear'),
           ),
         ),

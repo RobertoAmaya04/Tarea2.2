@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/src/api/fake_data.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
 import 'package:todoapp/src/api/models/user.dart';
 import 'package:todoapp/src/views/home_page.dart';
@@ -17,7 +18,7 @@ class MainApp extends StatelessWidget {
       title: "todo-App",
       debugShowCheckedModeBanner: false,
       routerConfig: GoRouter(
-        initialLocation: '/singin',
+        initialLocation: '/menu',
         routes: [
           GoRoute(
             path: '/singin',
@@ -34,7 +35,8 @@ class MainApp extends StatelessWidget {
             path: '/menu',
             name: 'menu',
             builder: (context, state) {
-              final user = state.extra as User;
+              //final user = state.extra as User;
+              final user =amehd;
               return HomePage(user: user);
             },
             routes: [

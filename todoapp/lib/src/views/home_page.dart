@@ -11,6 +11,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      return const Scaffold(
+        body: Center(child: Text('Usuario no disponible')),
+      );
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         // mira una opcion es poner en chiquito el nombre del usuario en el appbar
@@ -84,26 +91,50 @@ class HomePage extends StatelessWidget {
             key: Key(user!.todoList[index].id.toString()),
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.startToEnd) {
+                await Future.delayed(const Duration(milliseconds: 250));
+
                 final result = await context.pushNamed(
                   'update_todo',
                   pathParameters: {'id': user!.todoList[index].id.toString()},
                   extra: user!.todoList[index],
                 );
-                // si te salis de update_todo con un mapa null te truena el programa
-                //pero este result != null hace que la tarea tarde en volver a aparacere por el async await, porfa corregilo
+
                 if (result != null) user!.updateTodo(result as Todo);
                 return false;
               }
 
-              // return await Utils.showConfirm(
-              //   context: context,
-              //   confirmButton: () {
-              //     context.pop(user!.todoList.remove(user!.todoList[index]));
-              //   },
-              // );
-              // nose como lo haras la pantalla para preguntar si borrar, pero bueno solo
-              // que te
+
+
+              if (direction == DismissDirection.endToStart) {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('¿Desea eliminar esta tarea?'),
+                    content: const Text('Esta acción no se puede deshacer.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => context.pop(false),
+                        child: const Text('Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () => context.pop(true),
+                        child: const Text('Confirmar'),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (confirm == true) {
+                  user!.todoList.removeAt(index);
+                  return true; 
+                }
+
+                return false;
+              }
+
+              return false;
             },
+
 
             child: Item(todo: user!.todoList[index]),
           );
@@ -114,15 +145,16 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.teal,
         child: Icon(Icons.add, color: Colors.white),
         onPressed: () async {
-          //si alguien cancela esta operación volvienda hacia atras muere el programa
-          //solucionado permitiendo que el mapa venga null
-          //Falta validar que el mapa no venga vacío
-          final result = await context.pushNamed('create_todo') as Map?;
+          final result = await context.pushNamed('create_todo');
 
-          if (result != null) {
+          //Aqui hay un problema con el id ya que depende de la longitud y si se borra alguna tarea
+          // el id se reasigna dando tareas con mismo id.
+          // opciones: asignar el id con la fecha o milisegundos o directamente usando un paquete externo
+
+          if (result != null && result is Map) {
             user!.addTodo(
               Todo(
-                id: user!.todoList.length,
+                id: user!.todoList.length + 1,
                 title: result['title'],
                 description: result['description'],
                 isCompleted: false,
@@ -134,3 +166,5 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+

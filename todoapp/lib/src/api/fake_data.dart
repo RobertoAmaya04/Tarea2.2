@@ -3,7 +3,7 @@ import 'package:todoapp/src/api/models/user.dart';
 
 final amehd = User(
   name: 'Amehd',
-  email: 'amehd.mendez@gmail.com',
+  email: 'amehd.mendez@unah.hn',
   password: '20232030664',
   todoList: [
     Todo(
