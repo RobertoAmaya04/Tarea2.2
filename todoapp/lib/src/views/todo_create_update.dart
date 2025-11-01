@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/src/api/models/todo_model.dart';
-import 'package:todoapp/src/widgets/custom_snackbar.dart';
 import 'package:todoapp/src/widgets/custom_text_input.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todoapp/src/widgets/utils.dart';
 
 class TodoCreateUpdate extends StatelessWidget {
   final Todo? todo;
@@ -19,10 +19,15 @@ class TodoCreateUpdate extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.teal),
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        title: todo == null
+            ? Text("Crear tarea", style: TextStyle(color: Colors.white))
+            : Text("Eliminar tarea", style: TextStyle(color: Colors.white)),
+      ),
       body: SizedBox(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 16),
           child: Column(
             children: [
               CustomTextInput(
@@ -55,27 +60,29 @@ class TodoCreateUpdate extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              final title = titleController.text.trim();
-              final description = descriptionController.text.trim();
-
-              if (title.isEmpty) {
-                CustomSnackBar.show(
-                  context,
-                  message: 'El título no puede estar vacío',
-                  backgroundColor: Colors.red,
+              if (titleController.text.isEmpty) {
+                Utils.showSnackBar(
+                  context: context,
+                  title: 'Debe llenar el campo titulo',
+                  color: Colors.red,
                 );
                 return;
               }
 
               if (todo != null) {
-                todo!.title = title;
-                todo!.description = description;
+                todo!.title = titleController.text;
+                todo!.description = descriptionController.text;
                 context.pop(todo);
               } else {
-                context.pop({'title': title, 'description': description});
+                context.pop(
+                  {
+                        'title': titleController.text,
+                        'description': descriptionController.text,
+                      }
+                      as Map,
+                );
               }
             },
-
             child: todo != null ? Text('Guardar') : Text('Crear'),
           ),
         ),

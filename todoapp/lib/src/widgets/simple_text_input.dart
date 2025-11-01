@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SimpleInput extends StatelessWidget {
   final Icon? prefixIcon;
   final Icon? suffixIcon;
-  final String label;
+  final String? label;
   final TextInputType keyboard;
   final int lines;
   final TextEditingController cont;
@@ -12,9 +12,9 @@ class SimpleInput extends StatelessWidget {
     super.key,
     this.prefixIcon,
     this.suffixIcon,
-    required this.label,
-    required this.keyboard,
-    required this.lines,
+    this.label,
+    this.keyboard = TextInputType.text,
+    this.lines = 1,
     required this.cont,
     this.hint,
   });
@@ -29,7 +29,7 @@ class SimpleInput extends StatelessWidget {
         labelStyle: const TextStyle(fontSize: 12),
         alignLabelWithHint: true,
         hint: hint == null ? Text("") : Text(hint!),
-        label: Text(label),
+        label: label != null ? Text(label!) : null,
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
       ),

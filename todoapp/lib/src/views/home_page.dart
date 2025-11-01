@@ -12,11 +12,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: Text('Usuario no disponible')),
-      );
+      return const Scaffold(body: Center(child: Text('Usuario no disponible')));
     }
-
 
     return Scaffold(
       appBar: AppBar(
@@ -103,8 +100,6 @@ class HomePage extends StatelessWidget {
                 return false;
               }
 
-
-
               if (direction == DismissDirection.endToStart) {
                 final confirm = await showDialog<bool>(
                   context: context,
@@ -113,12 +108,15 @@ class HomePage extends StatelessWidget {
                     content: const Text('Esta acción no se puede deshacer.'),
                     actions: [
                       TextButton(
-                        onPressed: () => context.pop(false),
-                        child: const Text('Cancelar'),
+                        onPressed: () => context.pop(true),
+                        child: const Text(
+                          'Confirmar',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                       TextButton(
-                        onPressed: () => context.pop(true),
-                        child: const Text('Confirmar'),
+                        onPressed: () => context.pop(false),
+                        child: const Text('Cancelar'),
                       ),
                     ],
                   ),
@@ -126,7 +124,7 @@ class HomePage extends StatelessWidget {
 
                 if (confirm == true) {
                   user!.todoList.removeAt(index);
-                  return true; 
+                  return true;
                 }
 
                 return false;
@@ -134,7 +132,6 @@ class HomePage extends StatelessWidget {
 
               return false;
             },
-
 
             child: Item(todo: user!.todoList[index]),
           );
@@ -166,5 +163,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-

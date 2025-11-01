@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/src/widgets/password_widget.dart';
 import 'package:todoapp/src/widgets/simple_text_input.dart';
 
-enum CustomTextInputType { email, password, title, description }
+enum CustomTextInputType { email, password, title, description, simpleInput }
 
 class CustomTextInput extends StatelessWidget {
   final CustomTextInputType type;
@@ -20,7 +20,7 @@ class CustomTextInput extends StatelessWidget {
           keyboard: TextInputType.emailAddress,
           label: "e-mail",
           lines: 1,
-          hint: "sunombre@example.com",
+          hint: "sunombre@unah.hn",
         );
       case CustomTextInputType.password:
         return PasswordText(cont: cont);
@@ -40,6 +40,8 @@ class CustomTextInput extends StatelessWidget {
           label: "Descripcion",
           lines: 5,
         );
+      case CustomTextInputType.simpleInput:
+        return SimpleInput(cont: cont, keyboard: TextInputType.text, lines: 1);
     }
   }
 }
